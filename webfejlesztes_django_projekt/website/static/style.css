@@ -1,0 +1,12 @@
+.container{
+    margin-bottom: 1em;
+}
+nav{
+    background-color: aliceblue;
+    color: white;
+}
+#form-container, #mode{
+    background-color: aliceblue;
+    padding: 1em;
+    margin-bottom: 1em;
+}
