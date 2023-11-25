@@ -7,19 +7,32 @@
 <body>
     <h1>Navigation</h1>
     <h2><a href="{% url 'persons' %}">Person</a> <a href="{% url 'houses' %}">House</a></h2>
-    <h1>Add</h1>
+    <form method="get">
+        <h2><button type="submit" name="mode" value="add">Add</button><button type="submit" name="mode" value="edit">Edit</button></h2>
+    </form>
+    {% if mode == 'add' %}
     <form method="post">
-    {% csrf_token %}
+        {% csrf_token %}
         <input type="text" name="address" placeholder="address">
         <input type="text" name="houseType" placeholder="house type">
         <button type="submit" name="createHouse">Create House</button>
     </form>
+    {% elif mode == 'edit' %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="id" placeholder="id">
+        <input type="text" name="address" placeholder="address">
+        <input type="text" name="houseType" placeholder="house type">
+        <button type="submit" name="editHouse">Edit House</button>
+    </form>
+    {% endif %}
     <table>
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Address</th>
                 <th>Type</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -28,6 +41,13 @@
                 <td>{{ item.id }}</td>
                 <td>{{ item.address }}</td>
                 <td>{{ item.houseType }}</td>
+                <td>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ item.id }}" name="id">
+                        <button type="submit" name="deleteHouse">Delete</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
         </tbody>
