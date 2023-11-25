@@ -5,7 +5,17 @@
     <title>Persons Page</title>
 </head>
 <body>
-    <h1><a href="{% url 'persons' %}">Person</a> <a href="{% url 'houses' %}">House</a></h1>
+    <h1>Navigation</h1>
+    <h2><a href="{% url 'persons' %}">Person</a> <a href="{% url 'houses' %}">House</a></h2>
+    <h1>Add</h1>
+    <form method="post">
+    {% csrf_token %}
+        <input type="number" name="house" placeholder="houseID">
+        <input type="text" name="name" placeholder="name">
+        <input type="text" name="gender" placeholder="gender">
+        <input type="date" name="birth">
+        <button type="submit" name="createPerson">Create Person</button>
+    </form>
     <table>
         <thead>
             <tr>
@@ -17,6 +27,15 @@
             </tr>
         </thead>
         <tbody>
+        {% for item in data %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.house.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.gender }}</td>
+                <td>{{ item.birth }}</td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 </body>

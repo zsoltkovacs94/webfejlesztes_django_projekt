@@ -5,6 +5,32 @@
     <title>Houses Page</title>
 </head>
 <body>
-    <h1><a href="{% url 'persons' %}">Person</a> <a href="{% url 'houses' %}">House</a></h1>
+    <h1>Navigation</h1>
+    <h2><a href="{% url 'persons' %}">Person</a> <a href="{% url 'houses' %}">House</a></h2>
+    <h1>Add</h1>
+    <form method="post">
+    {% csrf_token %}
+        <input type="text" name="address" placeholder="address">
+        <input type="text" name="houseType" placeholder="house type">
+        <button type="submit" name="createHouse">Create House</button>
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Address</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in data %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item.address }}</td>
+                <td>{{ item.houseType }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>

@@ -3,7 +3,7 @@ from django.db import models
 
 class House(models.Model):
     id = models.AutoField(primary_key=True)
-    address = models.CharField(max_length=100)
+    address = models.CharField(max_length=100, unique=True)
     houseType = models.CharField(max_length=20)
 
 
