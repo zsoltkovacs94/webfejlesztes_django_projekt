@@ -7,15 +7,29 @@
 <body>
     <h1>Navigation</h1>
     <h2><a href="{% url 'persons' %}">Person</a> <a href="{% url 'houses' %}">House</a></h2>
-    <h1>Add</h1>
+    <form method="get">
+        <h2><button type="submit" name="mode" value="add">Add</button><button type="submit" name="mode" value="edit">Edit</button></h2>
+    </form>
+    {% if mode == 'add' %}
     <form method="post">
-    {% csrf_token %}
-        <input type="number" name="house" placeholder="houseID">
+        {% csrf_token %}
+        <input type="text" name="house" placeholder="houseID">
         <input type="text" name="name" placeholder="name">
         <input type="text" name="gender" placeholder="gender">
         <input type="date" name="birth">
         <button type="submit" name="createPerson">Create Person</button>
     </form>
+    {% elif mode == 'edit' %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="id" placeholder="id">
+        <input type="text" name="house" placeholder="houseID">
+        <input type="text" name="name" placeholder="name">
+        <input type="text" name="gender" placeholder="gender">
+        <input type="date" name="birth">
+        <button type="submit" name="editPerson">Edit Person</button>
+    </form>
+    {% endif %}
     <table>
         <thead>
             <tr>
@@ -34,6 +48,13 @@
                 <td>{{ item.name }}</td>
                 <td>{{ item.gender }}</td>
                 <td>{{ item.birth }}</td>
+                <td>
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ item.id }}" name="id">
+                        <button type="submit" name="deletePerson">Delete</button>
+                    </form>
+                </td>
             </tr>
         {% endfor %}
         </tbody>

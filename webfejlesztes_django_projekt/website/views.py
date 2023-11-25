@@ -29,6 +29,28 @@ def persons(request):
                               name=request.POST.get('name'),
                               gender=request.POST.get('gender'),
                               birth=birthDate)
+    if request.method == 'POST' and 'editPerson' in request.POST:
+        if Person.objects.filter(id=request.POST.get('id')).count() == 0:
+            print("Nem található az adott ember")
+            #Későbbiekben helyettesíteni
+            return HttpResponseRedirect(reverse("persons"))
+        if request.POST.get('house') == '' or House.objects.filter(id=request.POST.get('house')).count() == 0:
+            newHouse = Person.objects.filter(id=request.POST.get('id'))[0].house
+        else:
+            newHouse = House.objects.filter(id=request.POST.get('house'))[0]
+        newName = request.POST.get('name')
+        if newName == '':
+            newName = Person.objects.filter(id=request.POST.get('id'))[0].name
+        newGender = request.POST.get('gender')
+        if newGender == '':
+            newGender = Person.objects.filter(id=request.POST.get('id'))[0].gender
+        try:
+            newBirth = datetime.strptime(request.POST.get('birth'), "%Y-%m-%d")
+        except ValueError:
+            newBirth = Person.objects.filter(id=request.POST.get('id'))[0].birth
+        Person.objects.filter(id=request.POST.get('id')).update(house=newHouse, name=newName, gender=newGender, birth=newBirth)
+    if request.method == 'POST' and 'deletePerson' in request.POST:
+        Person.objects.filter(id=request.POST.get('id')).delete()
     return render(request, 'persons.html', {'data': Person.objects.all(),
                                             'mode': mode})
 
@@ -50,16 +72,12 @@ def houses(request):
             #Későbbiekben helyettesíteni
             return HttpResponseRedirect(reverse("houses"))
         newAddress = request.POST.get('address')
+        if newAddress == '':
+            newAddress = House.objects.filter(id=request.POST.get('id'))[0].address
         newHT = request.POST.get('houseType')
-        if newAddress == '' and newHT != '':
-            House.objects.filter(id=request.POST.get('id')).update(houseType=newHT)
-        elif newHT == '' and newAddress != '':
-            House.objects.filter(id=request.POST.get('id')).update(address=newAddress)
-        elif newHT == '' and newAddress == '':
-            print("Üres edit")
-            #Későbbiekben helyettesíteni
-        else:
-            House.objects.filter(id=request.POST.get('id')).update(address=newAddress,
+        if newHT == '':
+            newHT = House.objects.filter(id=request.POST.get('id'))[0].houseType
+        House.objects.filter(id=request.POST.get('id')).update(address=newAddress,
                                                                    houseType=newHT)
     if request.method == 'POST' and 'deleteHouse' in request.POST:
         House.objects.filter(id=request.POST.get('id')).delete()
