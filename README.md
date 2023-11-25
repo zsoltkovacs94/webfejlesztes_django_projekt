@@ -39,7 +39,7 @@ python .\webfejlesztes_django_projekt\startserver.py
 Ezután pár másodpercen belül elérhető a weboldal az alábbi címen:
 
 ```
-http://127.0.0.1:8000/index
+http://127.0.0.1:8000/
 ```
 
 Leállítani a terminálban CTRL+C billentyűparancs kiadásával tudjuk.
