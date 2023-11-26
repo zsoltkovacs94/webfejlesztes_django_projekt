@@ -3,12 +3,17 @@ from django.urls import reverse
 from django.shortcuts import render
 from .models import House, Person
 from datetime import datetime
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, logout as auth_logout, login as auth_login
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url='login')
 def home(request):
-    return render(request, 'index.html', {})
+    return HttpResponseRedirect(reverse("persons"))
 
 
+@login_required(login_url='login')
 def persons(request):
     if request.GET.get('mode'):
         mode = request.GET['mode']
@@ -55,6 +60,7 @@ def persons(request):
                                             'mode': mode})
 
 
+@login_required(login_url='login')
 def houses(request):
     if request.GET.get('mode'):
         mode = request.GET['mode']
@@ -96,3 +102,50 @@ def addTestPerson(request):
 def addTestHouse(request):
     House.objects.create(address='Cím', houseType='Kertes')
     return HttpResponseRedirect(reverse("houses"))
+
+
+def login(request):
+    if request.method == 'POST' and 'login' in request.POST:
+        print('LOGIN kérés fogadva')
+        user = authenticate(request,
+                            username=request.POST.get('username'),
+                            password=request.POST.get('password'))
+        if user is not None:
+            auth_login(request, user)
+            return HttpResponseRedirect(reverse("persons"))
+        else:
+            print('A felhasználó nem létezik')
+            #Későbbiekben helyettesíteni
+            return HttpResponseRedirect(reverse("login"))
+    return render(request, 'login.html', {})
+
+
+def register(request):
+    if request.method == 'POST' and 'register' in request.POST:
+        print('REGISTER kérés fogadva')
+        if User.objects.filter(username=request.POST.get('username')).exists():
+            print('A felhasználó már létezik')
+            #Későbbiekben helyettesíteni
+            return HttpResponseRedirect(reverse("register"))
+        if request.POST.get('username') == '' or\
+                request.POST.get('password1') == '' or\
+                request.POST.get('password2') == '' or\
+                request.POST.get('email') == '':
+            print('Töltse ki az összes mezőt')
+            #Későbbiekben helyettesíteni
+            return HttpResponseRedirect(reverse("register"))
+        if request.POST.get('password1') != request.POST.get('password2'):
+            print('Nem egyező jelszópár')
+            #Későbbiekben helyettesíteni
+            return HttpResponseRedirect(reverse("register"))
+        user = User.objects.create_user(request.POST.get('username'),
+                                        request.POST.get('email'),
+                                        request.POST.get('password1'))
+        user.save()
+        return HttpResponseRedirect(reverse("login"))
+    return render(request, 'register.html', {})
+
+
+def logout(request):
+    auth_logout(request)
+    return HttpResponseRedirect(reverse("login"))

@@ -5,8 +5,33 @@ nav{
     background-color: aliceblue;
     color: white;
 }
-#form-container, #mode{
+#form-container, #mode, #table_div, #reg_log{
     background-color: aliceblue;
     padding: 1em;
     margin-bottom: 1em;
+}
+body{
+    background-color: dimgray;
+    min-height: 100vh;
+}
+a{
+    color: black;
+}
+#reg_log{
+    max-width: 40%;
+}
+#reg_log_body{
+    display: flex;
+    align-items:center;
+}
+h1{
+    margin-top: 0px;
+}
+#reg_log_changer{
+    width: 100%;
+    text-align: right;
+    margin: 0px;
+}
+#reg_log_changer a{
+    color: blue;
 }

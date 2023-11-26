@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <title>Registration</title>
+</head>
+<body  id="reg_log_body">
+<div class="container align-middle" id="reg_log">
+    <h1>Registration</h1>
+    <p id="reg_log_changer"><a href="{% url 'login' %}">Login</a></p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+        <label for="username">Username</label>
+        <input id="username" type="text" name="username" placeholder="Username"  class="form-control">
+        </div>
+        <div class="form-group">
+        <label for="email">E-mail</label>
+        <input id="email" type="email" name="email" placeholder="E-mail"  class="form-control">
+        </div>
+        <div class="form-group">
+        <label for="password1">Password</label>
+        <input id="password1" type="password" name="password1" placeholder="Password"  class="form-control">
+        </div>
+        <div class="form-group">
+        <label for="password2">Re-Password</label>
+        <input id="password2" type="password" name="password2" placeholder="Re-Password"  class="form-control">
+        </div>
+        <button type="submit" name="register"  class="btn btn-primary">Create account</button>
+    </form>
+</div>
+</body>
+</html>
