@@ -26,6 +26,13 @@
         </div>
         <button type="submit" name="login"  class="btn btn-primary">Login</button>
     </form>
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
 </div>
 </body>
 </html>

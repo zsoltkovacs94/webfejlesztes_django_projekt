@@ -35,3 +35,18 @@ h1{
 #reg_log_changer a{
     color: blue;
 }
+.alert-error, .alert-success, .alert-warning{
+    margin-top: 1em;
+    margin-bottom: 0;
+    width: 100%;
+    color: white;
+}
+.alert-error{
+    background-color: red;
+}
+.alert-success{
+    background-color: green;
+}
+.alert-warning{
+    background-color: orange;
+}
